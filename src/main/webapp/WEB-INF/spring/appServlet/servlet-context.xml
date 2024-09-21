@@ -10,18 +10,21 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven /> <!-- 스프링 MVC에서 @사용가능하게 함 -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/resources/**" location="/resources/" /> <!-- 정적 html 문서 리소스들의 정보를 기술 -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <!-- InternalResourceViewResolver : JSP와 name을 매핑시켜주는 여할 -->
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.mystory001.justboard" />
+	<context:component-scan base-package="com.mystory001.justboard" /> <!-- context:component-scan : 해당 패키지에 있는 파일들의 어노테이션을 스캔해서 빈으로 등록하는 역할 -->
+	<context:component-scan base-package="com.mystory001.controller" />
+	<context:component-scan base-package="com.mystory001.dao" />
+	<context:component-scan base-package="com.mystory001.service" />
 	
 	
 	
