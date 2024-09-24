@@ -3,8 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%-- 반응형 웹 viewport → head태그 사이에 작성 --%>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <title>그냥 게시판</title>
 </head>
@@ -14,43 +12,26 @@
 	width: 1200px;
 	height: 600px;
 }
-
-.header{
-	float : right;
-	width: 1200px;
-	height: 0px;
-}
-
-.sidebar{
-	float : left;
-	width: 200px;
-	height: 500px;
-
-}
-
 .content{
 	width: 1000px;
 	height: 600px;
-}
-
-.footer{
-	float : right;
-	width: 1200px;
-	height: 0px;
 }
 </style>
 <body>
 <div class="container"> <%-- container 영역 div --%>
 
-<jsp:include page="inc/top.jsp" />
+<jsp:include page="../inc/top.jsp" />
 
-<jsp:include page="inc/sidebar.jsp" />
+<jsp:include page="../inc/sidebar.jsp" />
 
 <div class="content"> <%-- content영역 div --%>
- <h1>게시물 목록</h1>
- 
+<h1>정보 확인</h1>
+<form method="post" action="#">
+비밀번호를 입력해주세요.<br>
+<input type="password" name="pw"> <input type="submit" value="확인">
+</form>
 </div> <%-- content영역 div --%>
-<jsp:include page="inc/footer.jsp" />
+<jsp:include page="../inc/footer.jsp" />
 </div> <%-- container 영역 div --%>
 </body>
 </html>
