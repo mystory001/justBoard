@@ -26,8 +26,8 @@
 
 <div class="content"> <%-- content영역 div --%>
 <h1>정보 확인</h1>
-<form method="post" action="#">
-비밀번호를 입력해주세요.<br>
+<form method="post" action="${pageContext.request.contextPath }/member/checkPro">
+${sessionScope.id } 님 비밀번호를 입력해주세요.<br>
 <input type="password" name="pw"> <input type="submit" value="확인">
 </form>
 </div> <%-- content영역 div --%>
