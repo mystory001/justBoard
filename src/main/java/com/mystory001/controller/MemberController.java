@@ -1,12 +1,16 @@
 package com.mystory001.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mystory001.domain.MemberDTO;
 import com.mystory001.service.MemberService;
@@ -26,14 +30,14 @@ public class MemberController {
 	private MemberService memberService;
 	
 	/* 회원가입 */
-	@GetMapping("/join")
+	@GetMapping("member/join")
 	public String join() {
 		System.out.println("MemberController join()");
 		return "member/join"; //주소 변경 없이 이동하는 방식(forward)
 	}
 	
 	/* 회원가입처리 */
-	@PostMapping("/joinPro")
+	@PostMapping("member/joinPro")
 	public String joinPro(MemberDTO memberDTO) {
 		System.out.println("MemberController joinPro()");
 		memberService.joinPro(memberDTO); //join.jsp에서 입력한 데이터 → request → memberDTO 변수에 전달 → DB 작업 
@@ -48,6 +52,7 @@ public class MemberController {
 		
 		if(memberDTO2 != null) {
 			session.setAttribute("id", memberDTO2.getId());
+			session.setAttribute("name", memberDTO2.getName());
 			return "redirect:/";
 		} else {
 			return "member/loginmsg";
@@ -62,16 +67,24 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	/* 내 정보 확인 */
 	@GetMapping("member/check")
 	public String check(HttpSession session) {
 		System.out.println("MemberController check()");
+		//로그인이 되지 않았을 때 → 세션이 없음 → 페이지 접근 X
+		//로그인이 되었을 때 → 세션이 있음 → 페이지 접근 O
+		if(session.getAttribute("id")==null) {
+			return "/member/loginmsg2";
+		}
 		return "/member/check";
 	}
 	
+	/* 내 정보 확인 절차 */
 	@PostMapping("member/checkPro")
-	public String checkPro(@RequestParam("pw") String inputPw, HttpSession session) {
+	public String checkPro(@RequestParam("pw") String inputPw, HttpSession session, MemberDTO memberDTO) {
 		System.out.println("MemberController checkPro()");
 		String id = (String)session.getAttribute("id");
+		String name = (String)session.getAttribute("name");
 		String pw = memberService.pwCheck(id);
 		
 		if(pw!=null && pw.equals(inputPw)) {
@@ -91,6 +104,37 @@ public class MemberController {
 	public String mypage(HttpSession session) {
 		System.out.println("MemberController mypage()");
 		return "/member/mypage";
+	}
+	
+	@PostMapping("member/updatePro")
+	public String updatePro(MemberDTO memberDTO) {
+		System.out.println("MemberController updatePro()");
+		memberService.update(memberDTO);
+		return "redirect:/";
+	}
+	
+	@PostMapping("member/deletePro")
+	public String deletePro(MemberDTO memberDTO, HttpSession session) {
+		System.out.println("MemberController deletePro()");
+		memberService.delete(memberDTO);
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	/* 아이디 중복확인 */
+	@GetMapping("member/idCheck")
+	@ResponseBody
+	public String idCheck(MemberDTO memberDTO, HttpServletResponse response){
+		System.out.println("MemberController idCheck()");
+		MemberDTO memberDTO1 = memberService.idCheck(memberDTO.getId());
+		String result = "";
+		if(memberDTO1!=null) {
+			result = "iddup";
+		} else {
+			result = "idOk";
+		}
+		System.out.println(result);
+		return result;
 	}
 	
 }

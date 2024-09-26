@@ -24,7 +24,7 @@
 	width : 200px;
 }
 .validation{
-	widows: 200px;
+	width: 400px;
 	height: 30px;
 }
 </style>
@@ -40,12 +40,12 @@
 <h1>회원가입</h1>
 <form action="${pageContext.request.contextPath}/member/joinPro" method="post" id="join" onsubmit="return formCheck()">
 <div class="formstyle">
-<input type="text" name="id" id="id" required="required" placeholder="아이디"><br> <%-- 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능 --%>
+<span class="validation"></span> <%-- 유효성 검사 시 유효성에 일치않을 때 --%>
+<input type="text" name="id" id="id" class="id" required="required" placeholder="아이디"><br> <%-- 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능 --%>
 <input type="password" name="pw" id="pw" required="required" placeholder="비밀번호"><br> <%-- 영문 대/소문자, 숫자, 특수문자를 사용 --%>
 <input type="password" id="pw2" required="required" placeholder="비밀번호재확인"><br> <%-- 비밀번호를 다시 입력 --%>
 <input type="text" name="name" required="required" placeholder="이름"> <%-- 한글, 영문만 입력 가능 --%>
 </div>
-<div class="validation"><b></b></div> <%-- 유효성 검사 시 유효성에 일치않을 때 --%>
 <input type="submit" value="회원가입"> 
 </form>
 </div> <%-- content영역 div --%>
@@ -53,6 +53,27 @@
 </div> <%-- container 영역 div --%>
 
 <script type="text/javascript">
+<%-- 아이디 중복확인 --%>
+$(function() {
+    $("#id").on('blur', function() {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/member/idCheck',
+            data: {'id': $('.id').val()},
+            success: function(result) {
+                var message;
+                if (result == "iddup") {
+                    result = "이미 사용 중인 아이디입니다.";
+                    $('.validation').css("color", "red");
+                } else {
+                	result = "사용이 가능한 아이디입니다.";
+                    $('.validation').css("color", "green");
+                }
+                $('.validation').html(result);
+            }
+        });
+    });
+});
+
 <%-- 비밀번호와 비밀번호 재확인 --%>
 function passwordPass() {
     var pw = document.getElementById("pw");
@@ -95,6 +116,7 @@ function formCheck(){
         return false; // 검증 실패, 폼 제출 중지
     }
 }
+
 </script>
 </body>
 </html>

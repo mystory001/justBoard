@@ -30,5 +30,21 @@ public class MemberService {
 		System.out.println("MemberService userPw()");
 		return memberDAO.pwCheck(id);
 	}
+
+	public void update(MemberDTO memberDTO) {
+		System.out.println("MemberService update()");
+		memberDAO.update(memberDTO);
+	}
+
+	public void delete(MemberDTO memberDTO) {
+		System.out.println("MemberService delete()");
+		memberDAO.delete(memberDTO);
+		
+	}
+
+	public MemberDTO idCheck(String id) {
+		System.out.println("MemberService idCheck()");
+		return memberDAO.idCheck(id);
+	}
 	
 }

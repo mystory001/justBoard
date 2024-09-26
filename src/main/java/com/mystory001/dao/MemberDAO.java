@@ -30,5 +30,20 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+".pwCheck", id);
 	}
 
+	public void update(MemberDTO memberDTO) {
+		System.out.println("MemberDAO update()");
+		sqlSession.update(namespace+".update", memberDTO);
+	}
+
+	public void delete(MemberDTO memberDTO) {
+		System.out.println("MemberDAO delete()");
+		sqlSession.update(namespace+".delete", memberDTO);
+	}
+
+	public MemberDTO idCheck(String id) {
+		System.out.println("MemberDAO idCheck()");
+		return sqlSession.selectOne(namespace+".idCheck", id);
+	}
+
 	
 }
