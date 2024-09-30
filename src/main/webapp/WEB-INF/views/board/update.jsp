@@ -26,10 +26,12 @@
 
 <div class="content"> <%-- content영역 div --%>
 <h1>게시 글 수정</h1>
-<form>
-제목 : <input type="text" name="subject"><br>
-내용 : <textarea rows="10" cols="100" ></textarea><br>
-<input type="submit" value="수정하기">
+<form action="${pageContext.request.contextPath }/board/updatePro" method="post">
+<input type="hidden" name="no" value="${boardDTO.no }">
+<input type="text" name="id" value="${sessionScope.id }" readonly="readonly"><br>
+<input type="text" name="subject" value="${boardDTO.subject }"><br>
+<textarea rows="10" cols="50" name="content">${boardDTO.content }</textarea><br>
+<input type="submit" value="수정하기"> <a href="${pageContext.request.contextPath }/board/content?no=${boardDTO.no}"><input type="button" value="뒤로가기"></a>
 </form>
 </div> <%-- content영역 div --%>
 <jsp:include page="../inc/footer.jsp" />

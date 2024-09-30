@@ -9,6 +9,8 @@ public class BoardDTO {
 	private String subject;
 	private String content;
 	private Timestamp writetime;
+	private int readcount;
+	
 	public int getNo() {
 		return no;
 	}
@@ -38,6 +40,12 @@ public class BoardDTO {
 	}
 	public void setWritetime(Timestamp writetime) {
 		this.writetime = writetime;
+	}
+	public int getReadcount() {
+		return readcount;
+	}
+	public void setReadcount(int readcount) {
+		this.readcount = readcount;
 	}
 
 }

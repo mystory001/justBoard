@@ -27,6 +27,7 @@
 <div class="content"> <%-- content영역 div --%>
 <h1>게시 글 작성</h1>
 <form method="post" action="${pageContext.request.contextPath }/board/insertPro">
+<input type="text" name="id" value="${sessionScope.id }" readonly="readonly"><br>
 <input type="text" name="subject" placeholder="제목을 작성해주세요"><br><br>
 <textarea rows="10" cols="50" name="content" placeholder="내용을 입력해주세요."></textarea><br><br>
 <input type="submit" value="작성하기">

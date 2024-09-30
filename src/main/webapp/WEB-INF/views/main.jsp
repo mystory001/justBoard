@@ -48,23 +48,7 @@
 <jsp:include page="inc/sidebar.jsp" />
 
 <div class="content"> <%-- content영역 div --%>
-<h1>게시물 목록</h1>
-<table border="1">
-<tr>
-	<th>번호</th><th>제목</th><th>작성자</th><th>작성일</th>
-</tr>
-<%-- 게시글 목록 --%>
-</table>
-<%-- 로그인이 되어 있을 때만 버튼이 보이게--%>
-<c:if test="${! empty sessionScope.id }">
-	<a href="${pageContext.request.contextPath }/board/insert"><button>글쓰기</button></a>
-</c:if>
-<%-- 페이지 목록 10개씩 10개의 페이지 --%>
-<form method="get">
- <input type="text" name="search" value="검색">
- <input type="submit" value="검색하기">
- </form>
-
+<h1>홈 화면</h1>
 </div> <%-- content영역 div --%>
 <jsp:include page="inc/footer.jsp" />
 </div> <%-- container 영역 div --%>

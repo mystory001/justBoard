@@ -7,5 +7,51 @@
 	<select id="getBoardList" resultType="com.mystory001.domain.BoardDTO">
 		select *
 		from board
+		<if test="search != null">
+		where `subject` like concat('%',#{search},'%')
+		</if>
+		order by `no` desc
+		limit #{startRow}, #{pageSize}
 	</select>
+	
+	<insert id="insertBoard">
+		insert into board(`no`, id, `subject`, content, writetime, readcount)
+		values(#{no}, #{id}, #{subject}, #{content}, #{writetime}, #{readcount})
+	</insert>
+	
+	<select id="getMaxNo" resultType="java.lang.Integer">
+		select max(`no`) from board
+	</select>
+	
+	<select id="getBoard" resultType="com.mystory001.domain.BoardDTO">
+		select * 
+		from board
+		where `no` = #{no}
+	</select>
+	
+	<update id="readCount">
+		update board
+		set readcount = #{readcount}
+		where `no` = #{no}
+	</update>
+	
+	<update id="update">
+		update board
+		set `subject`=#{subject}, content=#{content}
+		where `no`=#{no}
+	</update>
+	
+	<delete id="delete">
+		delete from board
+		where `no`=#{no}
+	</delete>
+	
+	<select id="getBoardCount" resultType="java.lang.Integer">
+		select count(*)
+		from board
+		<if test="search != null">
+		where `subject` like concat('%',#{search},'%')
+		</if>
+	</select>
+	
 </mapper>

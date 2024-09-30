@@ -16,7 +16,7 @@
 <body>
 <hr>
 <div class="footer"> <%-- footer 영역 div --%>
-<span style="float: right;">시작 날짜 : 2024.09.19 / 끝낸 날짜 : 2024.?.? / 만든이 : 001cloudid</span>
+<span style="float: right;">시작 날짜 : 2024.09.19 / 끝낸 날짜 : 2024.09.30 / 만든이 : 001cloudid</span>
 </div> <%-- footer 영역 div --%>
 
 </body>

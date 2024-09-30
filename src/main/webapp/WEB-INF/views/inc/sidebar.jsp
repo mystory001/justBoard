@@ -17,6 +17,7 @@
 <div class="sidebar"> <%-- sidebar 영역 div --%>
 <ul>
 <li><a href="${pageContext.request.contextPath }/">홈 화면</a></li> 
+<li><a href="${pageContext.request.contextPath }/board/list">글 목록</a></li> 
 </ul>
 </div> <%-- sidebar 영역 div --%>
 </body>
