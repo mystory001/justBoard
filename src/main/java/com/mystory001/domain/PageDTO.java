@@ -3,15 +3,15 @@ package com.mystory001.domain;
 public class PageDTO {
 
 	private int pageSize; //글의 개수
-	private int currentPage;
+	private int currentPage; //현재 페이지
 	private String pageNum;
 	
 	private int startRow; //시작하는 행 번호
 	private int endRow; //끝나는 행 번호
 	
 	private int pageBlock; //한 화면에 보여줄 페이지 개수
-	private int startPage;
-	private int endPage;
+	private int startPage; //시작 페이지
+	private int endPage; //끝 페이지
 	
 	private int count; //전체 글의 개수
 	private int pageCount; //전체 페이지 개수
@@ -105,6 +105,5 @@ public class PageDTO {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	
 	
 }
