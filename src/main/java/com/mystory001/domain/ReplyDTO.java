@@ -12,7 +12,30 @@ public class ReplyDTO {
 	private int re_lev; //들여쓰기
 	private int re_seq; //댓글 순서
 	private int num; //댓글 번호(PK)
+	private int no;
 	
+	
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	@Override
+	public String toString() {
+		return "ReplyDTO [id=" + id + ", replyContent=" + replyContent + ", replyHidden=" + replyHidden
+				+ ", replyWriteTime=" + replyWriteTime + ", re_ref=" + re_ref + ", re_lev=" + re_lev + ", re_seq="
+				+ re_seq + ", num=" + num + "]";
+	}
+	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public String getId() {
 		return id;
 	}

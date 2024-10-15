@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mystory001.domain.BoardDTO;
 import com.mystory001.domain.PageDTO;
+import com.mystory001.domain.ReplyDTO;
 
 @Repository
 public class BoardDAO {
@@ -57,4 +58,15 @@ public class BoardDAO {
 		System.out.println("BoardDAO getBoardCount()");
 		return sqlSession.selectOne(namespace+".getBoardCount", pageDTO);
 	}
+
+	public void replyInsert(ReplyDTO replyDTO) {
+		System.out.println("BoardDAO replyInsert()");
+		sqlSession.insert(namespace+".replyInsert", replyDTO);
+	}
+
+	public List<ReplyDTO> getReplyList(int no) {
+		System.out.println("BoardDAO getReplyList()");
+		return sqlSession.selectList(namespace+".getReplyList", no);
+	}
+	
 }

@@ -54,4 +54,16 @@
 		</if>
 	</select>
 	
+	<insert id="replyInsert">
+		insert into reply(num,id,replyContent,replyHidden,replyWriteTime,`no`)
+		values(#{num},#{id},#{replyContent},#{replyHidden},#{replyWriteTime},#{no})
+	</insert>
+	
+	<select id="getReplyList" resultType="com.mystory001.domain.ReplyDTO">
+		select *
+		from reply
+		where `no` = #{no}
+		order by replyWriteTime desc
+	</select>
+	
 </mapper>

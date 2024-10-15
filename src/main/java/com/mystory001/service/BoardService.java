@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mystory001.dao.BoardDAO;
 import com.mystory001.domain.BoardDTO;
 import com.mystory001.domain.PageDTO;
+import com.mystory001.domain.ReplyDTO;
 
 @Service
 public class BoardService {
@@ -67,6 +68,18 @@ public class BoardService {
 	public int getBoardCount(PageDTO pageDTO) {
 		System.out.println("BoardService getBoardCount()");
 		return boardDAO.getBoardCount(pageDTO);
+	}
+
+	public void replyInsert(ReplyDTO replyDTO) {
+		System.out.println("BoardService replyInsert()");
+		replyDTO.setReplyHidden(false); //Boolean값으로 설정
+		replyDTO.setReplyWriteTime(new Timestamp(System.currentTimeMillis())); //댓글 작성 시간
+		boardDAO.replyInsert(replyDTO);
+	}
+
+	public List<ReplyDTO> getReplyList(int no) {
+		System.out.println("BoardService getReplyList()");
+		return boardDAO.getReplyList(no);
 	}
 
 }

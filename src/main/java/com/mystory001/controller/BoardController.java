@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mystory001.domain.BoardDTO;
 import com.mystory001.domain.PageDTO;
+import com.mystory001.domain.ReplyDTO;
 import com.mystory001.service.BoardService;
 
 @Controller
@@ -67,11 +68,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/content")
-	public String content(BoardDTO boardDTO, Model model) {
-		System.out.println("BoardController content()");
+	public String content(BoardDTO boardDTO, ReplyDTO replyDTO, Model model) {
+		System.out.println("BoardController Content()");
 		boardDTO = boardService.getBoard(boardDTO); //글에 대한 정보
 		boardService.readCount(boardDTO); //조회수
-		model.addAttribute("boardDTO",boardDTO);
+		
+	    List<ReplyDTO> replyList = boardService.getReplyList(boardDTO.getNo()); // 게시글 번호를 사용
+	    System.out.println(replyList.toString()); // 디버깅을 위한 로그 출력
+	    model.addAttribute("boardDTO", boardDTO);
+	    model.addAttribute("replyDTO", replyDTO);
+	    model.addAttribute("replyList", replyList); // 댓글 리스트 추가
 		return "board/content";
 	}
 	
@@ -106,11 +112,18 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping("delete")
+	@GetMapping("/delete")
 	public String delete(BoardDTO boardDTO) {
 		System.out.println("BoardController delete()");
 		boardService.delete(boardDTO);
 		return "redirect:/board/list";
+	}
+	
+	@PostMapping("/replyInsertPro")
+	public String replyInsertPro(ReplyDTO replyDTO, Model model) {
+		System.out.println("BoardController replyInsertPro()");
+		boardService.replyInsert(replyDTO);
+		return "redirect:/board/content?no="+replyDTO.getNo();
 	}
 
 }
