@@ -1,6 +1,8 @@
 package com.mystory001.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mystory001.domain.BoardDTO;
 import com.mystory001.domain.PageDTO;
 import com.mystory001.domain.ReplyDTO;
+import com.mystory001.domain.ReplyPageDTO;
 
 @Repository
 public class BoardDAO {
@@ -64,9 +67,19 @@ public class BoardDAO {
 		sqlSession.insert(namespace+".replyInsert", replyDTO);
 	}
 
-	public List<ReplyDTO> getReplyList(int no) {
+	public List<ReplyDTO> getReplyList(int boardNo, ReplyPageDTO replyPageDTO) {
 		System.out.println("BoardDAO getReplyList()");
-		return sqlSession.selectList(namespace+".getReplyList", no);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("boardNo", boardNo);
+		params.put("startRow", replyPageDTO.getStartRow());
+		params.put("pageSize", replyPageDTO.getPageSize());
+		return sqlSession.selectList(namespace+".getReplyList", params);
+	}
+
+	public int getReplyCount(int boardNo) {
+		System.out.println("BoardDAO getReplyCount()");
+		return sqlSession.selectOne(namespace+".getReplyCount", boardNo);
 	}
 	
 }

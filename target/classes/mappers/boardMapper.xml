@@ -60,10 +60,17 @@
 	</insert>
 	
 	<select id="getReplyList" resultType="com.mystory001.domain.ReplyDTO">
-		select *
+		select b.id, r.replyContent,r.replyHidden, r.replyWriteTime,r.`no`
+		from board b join reply r on b.`no` = r.`no`
+		where b.`no` = #{boardNo}
+		order by r.replyWriteTime desc
+		limit #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getReplyCount" resultType="int">
+		select count(*)
 		from reply
 		where `no` = #{no}
-		order by replyWriteTime desc
 	</select>
 	
 </mapper>

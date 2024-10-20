@@ -16,7 +16,7 @@
 }
 .content{
 	width: 1000px;
-	height: 600px;
+	height: 550px;
 }
 </style>
 <body>
@@ -51,37 +51,52 @@
 <c:if test="${!empty sessionScope.id }">
 댓글<br>
 <form action="${pageContext.request.contextPath}/board/replyInsertPro" method="post">
-<input type="hidden" name="no" value="${replyDTO.no }">
-<input type="text" name="id" value="${sessionScope.id }" readonly="readonly"><br>
+<input type="hidden" name="no" value="${boardDTO.no }">
+<input type="hidden" name="id" value="${sessionScope.id }">
+<input type="text" value="${sessionScope.id }" readonly="readonly"><br>
 <textarea rows="5" cols="30" style="width: 792px; height: 35px" placeholder="내용을 작성해주세요." name="replyContent"></textarea><br>
 <span style="float: right;"><input type="checkbox" name="replyHidden" value="true">비밀글 <input type="hidden" name="replyHidden" value="false"><input type="submit" value="작성"></span>
 </form>
 댓글 목록 <sub>비밀 댓글은 굵게 표시됩니다.</sub><br>
-<c:if test="${empty replyList }">
-작성된 댓글이 없습니다. 
+    <c:if test="${empty replyList}">
+        작성된 댓글이 없습니다.
+    </c:if>
+    <c:if test="${!empty replyList}">
+        <table>
+            <c:forEach var="replyDTO" items="${replyList}">
+                <tr>
+                    <c:choose>
+                        <c:when test="${replyDTO.replyHidden && replyDTO.id != sessionScope.id}">
+                            <td style="width: 600px">작성자: ${replyDTO.id}</td>
+                            <td style="width: 1000px">비밀글입니다.</td>
+                            <td style="width: 600px">작성시간: <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td style="width: 600px">작성자: ${replyDTO.id}</td>
+                            <td style="width: 1000px"><b>내용: ${replyDTO.replyContent}</b></td>
+                            <td style="width: 600px">작성시간: <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td>
+                        </c:otherwise>
+                    </c:choose>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 </c:if>
-<c:if test="${!empty replyList}">
-    <c:forEach var="replyDTO" items="${replyList}">
-        <tr>
-				<c:if test="${replyDTO.replyHidden == false}">
-				    <td>작성자 : </td><td>${replyDTO.id}</td>
-				    <td>내용 : </td><td>${replyDTO.replyContent}</td>
-				    <td>작성시간 : </td><td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td><br>
-				</c:if>
-				<c:if test="${replyDTO.replyHidden == true}">
-				    <c:if test="${empty sessionScope.id}">
-				    <td><b>권한이 없습니다.</b></td>
-				    </c:if>
-                <c:if test="${sessionScope.id eq replyDTO.id or sessionScope.id eq boardDTO.id}">
-                    <td><b>작성자 : </b></td><td><b>${replyDTO.id}</b></td>
-                    <td><b>내용 : </b></td><td><b>${replyDTO.replyContent}</b></td>
-                    <td><b>작성시간 : </b></td><td><b><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></b></td><br>
-                </c:if>
-            </c:if>
-        </tr>
-    </c:forEach>
-</c:if>
-</c:if>
+    
+    <div style="float: right;">
+    <c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage - replyPageDTO.pageBlock}">Prev</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${replyPageDTO.startPage}" end="${replyPageDTO.endPage}" step="1">
+    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${i}">${i} </a>
+	</c:forEach>
+
+	<c:if test="${replyPageDTO.endPage < replyPageDTO.pageCount}">
+    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage + replyPageDTO.pageBlock}">Next</a>
+	</c:if>
+    </div>
+
 </div> <%-- content영역 div --%>
 <jsp:include page="../inc/footer.jsp" />
 </div> <%-- container 영역 div --%>

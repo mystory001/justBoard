@@ -11,6 +11,7 @@ import com.mystory001.dao.BoardDAO;
 import com.mystory001.domain.BoardDTO;
 import com.mystory001.domain.PageDTO;
 import com.mystory001.domain.ReplyDTO;
+import com.mystory001.domain.ReplyPageDTO;
 
 @Service
 public class BoardService {
@@ -77,9 +78,24 @@ public class BoardService {
 		boardDAO.replyInsert(replyDTO);
 	}
 
-	public List<ReplyDTO> getReplyList(int no) {
+	public List<ReplyDTO> getReplyList(int boardNo, ReplyPageDTO replyPageDTO) {
 		System.out.println("BoardService getReplyList()");
-		return boardDAO.getReplyList(no);
+		
+		//시작하는 행 번호 구하기(currentPage,pageSize)
+		int currentPage = replyPageDTO.getCurrentPage();
+		int pageSize = replyPageDTO.getPageSize();
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = startRow + pageSize - 1;
+		
+		replyPageDTO.setStartRow(startRow - 1);
+		replyPageDTO.setEndRow(endRow);
+		
+		return boardDAO.getReplyList(boardNo, replyPageDTO);
+	}
+	
+	public int getReplyCount(int boardNo) {
+		System.out.println("BoardSerivce getReplyCount()");
+		return boardDAO.getReplyCount(boardNo);
 	}
 
 }
