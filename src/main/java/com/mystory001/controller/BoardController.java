@@ -164,6 +164,9 @@ public class BoardController {
 		String userId = (String)session.getAttribute("id");
 		if(userId !=null ) {
 			replyDTO.setId(userId); //댓글 작성자 ID 설정
+			System.out.println("댓글 작성자 ID: " + replyDTO.getId());
+		} else {
+			System.out.println("세션에서 ID를 찾을 수 없음");
 		}
 		
 		boardService.replyInsert(replyDTO);

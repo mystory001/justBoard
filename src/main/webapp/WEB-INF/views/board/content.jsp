@@ -55,9 +55,9 @@
 <input type="hidden" name="id" value="${sessionScope.id }">
 <input type="text" value="${sessionScope.id }" readonly="readonly"><br>
 <textarea rows="5" cols="30" style="width: 792px; height: 35px" placeholder="내용을 작성해주세요." name="replyContent"></textarea><br>
-<span style="float: right;"><input type="checkbox" name="replyHidden" value="true">비밀글 <input type="hidden" name="replyHidden" value="false"><input type="submit" value="작성"></span>
+<span style="float: right;"><input type="submit" value="작성"></span>
 </form>
-댓글 목록 <sub>비밀 댓글은 굵게 표시됩니다.</sub><br>
+댓글 목록 <sub></sub><br>
     <c:if test="${empty replyList}">
         작성된 댓글이 없습니다.
     </c:if>
@@ -65,37 +65,25 @@
         <table>
             <c:forEach var="replyDTO" items="${replyList}">
                 <tr>
-                    <c:choose>
-                        <c:when test="${replyDTO.replyHidden && replyDTO.id != sessionScope.id}">
-                            <td style="width: 600px">작성자: ${replyDTO.id}</td>
-                            <td style="width: 1000px">비밀글입니다.</td>
-                            <td style="width: 600px">작성시간: <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td>
-                        </c:when>
-                        <c:otherwise>
-                            <td style="width: 600px">작성자: ${replyDTO.id}</td>
-                            <td style="width: 1000px"><b>내용: ${replyDTO.replyContent}</b></td>
-                            <td style="width: 600px">작성시간: <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td>
-                        </c:otherwise>
-                    </c:choose>
+                  <td style="width: 1600px">내용: ${replyDTO.replyContent}</td>
+                  <td style="width: 600px">작성시간: <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${replyDTO.replyWriteTime}" /></td>
                 </tr>
             </c:forEach>
         </table>
     </c:if>
+	    <div style="float: right;">
+	    	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+	    		<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage - replyPageDTO.pageBlock}">Prev</a>
+			</c:if>
+	
+			<c:forEach var="i" begin="${replyPageDTO.startPage}" end="${replyPageDTO.endPage}" step="1">
+	    		<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${i}">${i} </a>
+			</c:forEach>
+			<c:if test="${replyPageDTO.endPage < replyPageDTO.pageCount}">
+		    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage + replyPageDTO.pageBlock}">Next</a>
+			</c:if>
+	    </div>
 </c:if>
-    
-    <div style="float: right;">
-    <c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage - replyPageDTO.pageBlock}">Prev</a>
-	</c:if>
-
-	<c:forEach var="i" begin="${replyPageDTO.startPage}" end="${replyPageDTO.endPage}" step="1">
-    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${i}">${i} </a>
-	</c:forEach>
-
-	<c:if test="${replyPageDTO.endPage < replyPageDTO.pageCount}">
-    	<a href="${pageContext.request.contextPath}/board/content?no=${boardDTO.no}&pageNum=${replyPageDTO.startPage + replyPageDTO.pageBlock}">Next</a>
-	</c:if>
-    </div>
 
 </div> <%-- content영역 div --%>
 <jsp:include page="../inc/footer.jsp" />
